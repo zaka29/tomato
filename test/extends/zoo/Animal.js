@@ -1,24 +1,18 @@
-define(function () {
+define([
+    'tomato'
+], function (tomato) {
 
-    /**
-     *
-     * @param name
-     * @constructor
-     */
-    function Animal(name) {
-        this.name = name;
-    }
+    return tomato.Class.extend({
 
-    /**
-     *
-     * @param meters
-     * @return {Animal}
-     */
-    Animal.prototype.move = function (meters) {
-        console.log(this.name + (" moved " + meters + "m."));
-        return this;
-    };
+        initialize: function (name) {
+            this.name = name;
+        },
 
-    return Animal;
+        move: function (meters) {
+            console.log(this.name + (" moved " + meters + "m."));
+            return this;
+        }
+
+    });
 
 });

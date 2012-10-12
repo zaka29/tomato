@@ -4,26 +4,13 @@ define([
     './Animal'
 ], function (tomato, Animal) {
 
-    tomato.inherits(Snake, Animal);
+    return tomato.Class.extend(Animal, {
 
-    /**
-     *
-     * @constructor
-     * @extends {Animal}
-     */
-    function Snake() {
-        Snake.__super__.constructor.apply(this, arguments);
-    }
+        move: function () {
+            console.log(this.name, "Slithering...");
+            return this.parent(5);
+        }
 
-    /**
-     *
-     * @return {Snake}
-     */
-    Snake.prototype.move = function () {
-        console.log(this.name, "Slithering...");
-        return Snake.__super__.move.call(this, 5);
-    };
-
-    return Snake;
+    });
 
 });

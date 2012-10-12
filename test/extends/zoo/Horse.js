@@ -1,33 +1,19 @@
-/*global Animal */
 define([
     'tomato',
     './Animal'
 ], function (tomato, Animal) {
 
-    tomato.inherits(Horse, Animal);
+    return tomato.Class.extend(Animal, {
 
-    /**
-     *
-     * @constructor
-     * @extends {Animal}
-     */
-    function Horse() {
-        Horse.__super__.constructor.apply(this, arguments);
-    }
+        move: function () {
+            console.log(this.name, "Galloping...");
+            return this.parent(45);
+        },
 
-    /**
-     *
-     * @return {Horse}
-     */
-    Horse.prototype.move = function () {
-        console.log(this.name, "Galloping...");
-        return Horse.__super__.move.call(this, 45);
-    };
+        neigh: function () {
+            console.log(this.name, "Neigh...");
+        }
 
-    Horse.prototype.neigh = function () {
-        console.log(this.name, "Neigh...");
-    };
-
-    return Horse;
+    });
 
 });
