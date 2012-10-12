@@ -2,9 +2,9 @@ define([
     'tomato'
 ], function (tomato) {
 
-    return tomato.Class.extend({
+    return tomato.Class.create({
 
-        initialize: function (name) {
+        initialize: function Animal(name) {
             this.name = name;
         },
 
