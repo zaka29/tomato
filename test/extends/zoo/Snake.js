@@ -20,7 +20,7 @@ define([
      * @return {Snake}
      */
     Snake.prototype.move = function () {
-        console.log(this, "Slithering...");
+        console.log(this.name, "Slithering...");
         return Snake.__super__.move.call(this, 5);
     };
 

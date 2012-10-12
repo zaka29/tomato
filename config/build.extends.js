@@ -7,7 +7,7 @@
     optimize: 'none',
     modules: [
         {
-            name: 'extends/app',
+            name: 'extends/main',
             exclude: [
                 'tomato'
             ]

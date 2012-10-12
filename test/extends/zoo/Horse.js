@@ -20,12 +20,12 @@ define([
      * @return {Horse}
      */
     Horse.prototype.move = function () {
-        console.log(this, "Galloping...");
+        console.log(this.name, "Galloping...");
         return Horse.__super__.move.call(this, 45);
     };
 
     Horse.prototype.neigh = function () {
-        console.log(this, "Neigh...");
+        console.log(this.name, "Neigh...");
     };
 
     return Horse;
