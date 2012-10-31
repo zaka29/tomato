@@ -9,7 +9,9 @@ define([
 
     var sam, tom;
 
+    /** @type {Snake} */
     sam = new Snake('Sammy the Python');
+    /** @type {Horse} */
     tom = new Horse('Tommy the Palomino');
 
     sam.move();
