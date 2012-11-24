@@ -1,6 +1,8 @@
 (function () {
 
-    var tomato = {};
+    var tomato = {},
+        $ = window.jQuery.noConflict(),
+        Backbone = window.Backbone.noConflict();
 
     tomato.Class = {
         create: function (parent, props) {
@@ -26,7 +28,7 @@
         }
     };
 
-    var inherits = tomato.inherits = function (child, parent) {
+    function inherits(child, parent) {
         for (var key in parent) {
             if (parent.hasOwnProperty(key)) {
                 child[key] = parent[key];
@@ -40,15 +42,26 @@
         child.prototype = new Ctor();
         child.__super__ = parent.prototype;
         return child;
-    };
+    }
 
-    tomato.super = function (context, fn, args) {
-        fn.__super__.constructor.apply(context, args);
+    tomato.super = function (constructor, fn, args) {
+        if (typeof fn === 'string') {
+            constructor.__super__[fn].apply(this, args);
+        } else {
+            constructor.__super__['constructor'].apply(this, fn);
+        }
     };
 
     function _extend(protoProps, staticProps) {
-        var child = inherits(protoProps['init'] || new Function(), this);
-        delete protoProps['init'];
+        var child;
+        if (protoProps && protoProps.hasOwnProperty('constructor')) {
+            child = inherits(protoProps.constructor, this);
+        } else {
+            var parent = this;
+            child = inherits(function () {
+                parent.apply(this, arguments);
+            }, this);
+        }
         if (protoProps) {
             _.extend(child.prototype, protoProps);
         }
@@ -59,19 +72,91 @@
         return child;
     }
 
-    tomato.Application = function () {
-        console.log('Creating...')
+    /**
+     *
+     * @constructor
+     */
+    tomato.Application = function (container) {
+        console.log('Application: creating...');
+        this.$container = $(container);
+        this.router = new Backbone.Router();
+        this.routes.forEach(function (route) {
+            this.route(route);
+        }, this);
     };
 
     tomato.Application.prototype.start = function () {
-        console.log('Starting...')
+        console.log('Application: starting...');
+        Backbone.history.start();
     };
 
     tomato.Application.prototype.stop = function () {
-        console.log('Stopping...')
+        console.log('Application: stopping...');
     };
 
-    tomato.Application.extend = _extend;
+    tomato.Application.prototype.route = function (route) {
+        console.log('Application: registering route: ' + route.name);
+
+        function Application_RouteOnChange() {
+            var presenter = new route.Presenter(),
+                proto = route.Presenter.prototype;
+            if (!proto.view) {
+                proto.view = new proto.View();
+            }
+            proto.view.setPresenter(presenter);
+            presenter.start(this.$container);
+        }
+
+        this.router.route(route.pattern, route.name, Application_RouteOnChange.bind(this));
+    };
+
+    /**
+     *
+     * @constructor
+     */
+    tomato.Presenter = function () {
+        console.log('Presenter: creating...');
+    };
+
+    tomato.Presenter.prototype.start = function () {
+        console.log('Presenter: starting...')
+    };
+
+    tomato.Presenter.prototype.stop = function () {
+        console.log('Presenter: stopping...')
+    };
+
+    /**
+     *
+     * @constructor
+     */
+    tomato.View = function () {
+        console.log('View: creating...');
+        this.init();
+    };
+
+    tomato.View.prototype.template = function () {
+        return '<div></div>';
+    };
+
+    tomato.View.prototype.init = function () {
+        this.$el = $.parseHTML(this.template());
+    };
+
+    tomato.View.prototype.setParent = function ($container) {
+        $container.contents().detach();
+        $container.append(this.$el);
+    };
+
+    tomato.View.prototype.setPresenter = function (presenter) {
+        //noinspection JSUnusedGlobalSymbols
+        this.presenter = presenter;
+    };
+
+    tomato.View.extend
+        = tomato.Presenter.extend
+        = tomato.Application.extend
+        = _extend;
 
     define('tomato', function () {
         return tomato;

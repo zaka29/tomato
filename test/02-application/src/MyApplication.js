@@ -1,17 +1,19 @@
 define([
-    'tomato'
-], function (tomato) {
+    'tomato',
+    './pages/routes'
+], function (tomato, routes) {
 
     return tomato.Application.extend({
 
-        init: function MyApplication() {
-            tomato.super(this, MyApplication, arguments);
+        routes: routes,
+
+        constructor: function MyApplication() {
+            tomato.super.call(this, MyApplication, arguments);
             console.log('Application created.');
         },
 
         hello: function () {
             console.log('Hello, world!');
-            console.log(this);
         }
 
     });

@@ -9,18 +9,18 @@
     <script src="../../lib/backbone/backbone.js"></script>
     <script src="../../src/tomato.js"></script>
     <script>
-        require(['src/MyApplication'], function (MyApplication) {
+        require({
+            baseUrl: 'src'
+        }, ['MyApplication'], function (MyApplication) {
 
-            var myApplication = new MyApplication();
+            var myApplication = new MyApplication('#AppContainer');
             myApplication.start();
             myApplication.hello();
-            myApplication.stop();
-
 
         });
     </script>
 </head>
 <body>
-
+<div id="AppContainer"></div>
 </body>
 </html>
