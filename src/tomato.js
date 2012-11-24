@@ -7,20 +7,18 @@
             if (typeof parent !== 'function') {
                 props = parent;
             } else {
-                ctor.prototype = parent.prototype;
-                props['initialize'].prototype = new ctor();
+                Ctor.prototype = parent.prototype;
+                props['initialize'].prototype = new Ctor();
                 props['initialize'].__super__ = parent.prototype;
             }
 
-            var __hasProp = {}.hasOwnProperty;
-
             for (var key in props) {
-                if (__hasProp.call(props, key)) {
+                if (props.hasOwnProperty(key)) {
                     props['initialize'].prototype[key] = props[key];
                 }
             }
 
-            function ctor() {
+            function Ctor() {
                 this.constructor = props['initialize'];
             }
 
