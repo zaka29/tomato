@@ -3,15 +3,15 @@ define([
     './Animal'
 ], function (tomato, Animal) {
 
-    var Horse = tomato.Class.create(Animal,
+    return tomato.Class.create(Animal,
         /**
-         * @lends {Horse.prototype}
+         * @lends {zoo.Horse.prototype}
          */
         {
             /**
-             * @class Horse
+             * @class zoo.Horse
              * @constructor
-             * @extends {Animal}
+             * @extends {zoo.Animal}
              */
             initialize: function Horse() {
                 this.constructor.__super__.constructor.apply(this, arguments);
@@ -28,7 +28,5 @@ define([
 
         }
     );
-
-    return Horse;
 
 });

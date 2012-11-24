@@ -2,13 +2,13 @@ define([
     'tomato'
 ], function (tomato) {
 
-    var Animal = tomato.Class.create(
+    return tomato.Class.create(
         /**
-         * @lends Animal.prototype
+         * @lends zoo.Animal.prototype
          */
         {
             /**
-             * @class Animal
+             * @class zoo.Animal
              * @param name
              * @constructor
              */
@@ -23,7 +23,5 @@ define([
 
         }
     );
-
-    return Animal;
 
 });

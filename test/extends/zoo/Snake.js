@@ -3,15 +3,15 @@ define([
     './Animal'
 ], function (tomato, Animal) {
 
-    var Snake = tomato.Class.create(Animal,
+    return tomato.Class.create(Animal,
         /**
-         * @lends {Snake.prototype}
+         * @lends {zoo.Snake.prototype}
          */
         {
             /**
-             * @class Snake
+             * @class zoo.Snake
              * @constructor
-             * @extends {Animal}
+             * @extends {zoo.Animal}
              */
             initialize: function Snake() {
                 this.constructor.__super__.constructor.apply(this, arguments);
@@ -24,7 +24,5 @@ define([
 
         }
     );
-
-    return Snake;
 
 });

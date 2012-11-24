@@ -7,18 +7,24 @@ define([
     console.time('app');
     console.groupCollapsed('Initialization');
 
-    var sam, tom;
+    var sam, tom, john;
 
-    /** @type {Snake} */
+    /**
+     *
+     * @type {zoo.Snake}
+     */
     sam = new Snake('Sammy the Python');
-    /** @type {Horse} */
+    /**
+     *
+     * @type {zoo.Horse}
+     */
     tom = new Horse('Tommy the Palomino');
 
     sam.move();
     tom.move().neigh();
 
     console.groupEnd();
-    console.group('Type check');
+    console.groupCollapsed('Type check');
 
     console.log('tom is Horse:', tom instanceof Horse);
     console.log('tom is Animal:', tom instanceof Animal);
