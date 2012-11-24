@@ -7,7 +7,7 @@ define([
     console.time('app');
     console.groupCollapsed('Initialization');
 
-    var sam, tom, john;
+    var sam, tom;
 
     /**
      *
