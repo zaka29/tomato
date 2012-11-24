@@ -1,5 +1,6 @@
+//noinspection BadExpressionStatementJS
 ({
-    baseUrl: '../test',
+    baseUrl: '../',
     dir: '../dist',
     paths: {
         'tomato': 'empty:'
@@ -7,7 +8,7 @@
     optimize: 'none',
     modules: [
         {
-            name: 'extends/main',
+            name: 'src/main',
             exclude: [
                 'tomato'
             ]
