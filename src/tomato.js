@@ -59,19 +59,19 @@
         return child;
     }
 
-    tomato.Module = function () {
+    tomato.Application = function () {
         console.log('Creating...')
     };
 
-    tomato.Module.prototype.start = function () {
+    tomato.Application.prototype.start = function () {
         console.log('Starting...')
     };
 
-    tomato.Module.prototype.stop = function () {
+    tomato.Application.prototype.stop = function () {
         console.log('Stopping...')
     };
 
-    tomato.Module.extend = _extend;
+    tomato.Application.extend = _extend;
 
     define('tomato', function () {
         return tomato;
