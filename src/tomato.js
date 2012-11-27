@@ -150,6 +150,7 @@
         this.eventBus.on.apply(this.eventBus, arguments);
     };
 
+    //noinspection JSUnusedGlobalSymbols
     tomato.View.prototype.unsubscribe = function () {
         this.eventBus.off.apply(this.eventBus, arguments);
     };
