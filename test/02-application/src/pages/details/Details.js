@@ -12,10 +12,11 @@ define([
         name: 'Details',
         View: View,
         constructor: Details,
-        start: function ($container) {
+        start: function ($container, id) {
             tomato.super.call(this, Details, 'start', arguments);
             console.log('Details: starting...');
             this.view.setParent($container);
+            this.view.getWidget().setValue('hello ' + id);
         }
     });
 
