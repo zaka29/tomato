@@ -103,6 +103,7 @@
             presenter.start.apply(presenter, _.union($container, args));
         }
 
+        // TODO use eventbus for route change handling
         function Application_RouteOnChange() {
             var presenter = new route.Presenter(),
                 proto = route.Presenter.prototype,
