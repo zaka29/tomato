@@ -163,29 +163,39 @@
         return '<div></div>';
     };
 
-    tomato.View.prototype.render = function () {
-        var thisView = this;
-        this.$el = $($.parseHTML(this.template()));
-        this.loadCouner = 0;
-        this.$el.find('[data-type]').each(function () {
-            thisView.loadCouner++;
-            var $placeholder = $(this);
-            require([$placeholder.data('type')], function (Widget) {
-                var widget = new Widget();
-                thisView[$placeholder.data('name')] = widget;
-                widget.subscribe('viewReady', function () {
-                    $placeholder.replaceWith(widget.$el);
-                    thisView.loadCouner--;
-                    if (thisView.loadCouner == 0) {
-                        thisView.publish('viewReady');
-                    }
-                });
-                widget.render();
-            });
-        });
+    tomato.View.prototype._requireWidget = function ($placeholder) {
+        this.loadCouner++;
+        require([$placeholder.data('type')], function (Widget) {
+            this._onloadWidget(Widget, $placeholder);
+        }.bind(this));
+    };
+
+    tomato.View.prototype._onloadWidget = function (Widget, $placeholder) {
+        var widget = new Widget();
+        this[$placeholder.data('name')] = widget;
+
+        widget.subscribe('viewReady', function () {
+            $placeholder.replaceWith(widget.$el);
+            this.loadCouner--;
+            this.viewReady();
+        }.bind(this));
+
+        widget.render();
+    };
+
+    tomato.View.prototype.viewReady = function () {
         if (this.loadCouner == 0) {
             this.publish('viewReady');
         }
+    };
+
+    tomato.View.prototype.render = function () {
+        this.$el = $($.parseHTML(this.template()));
+        this.loadCouner = 0;
+        this.$el.find('[data-type]').each(function (i, el) {
+            this._requireWidget($(el));
+        }.bind(this));
+        this.viewReady();
     };
 
     tomato.View.prototype.setParent = function ($container) {
