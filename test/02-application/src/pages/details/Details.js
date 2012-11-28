@@ -1,7 +1,8 @@
 define([
     'tomato',
-    './DetailsView'
-], function (tomato, View) {
+    './DetailsView',
+    './detailsModel'
+], function (tomato, View, Model) {
 
     function Details() {
         tomato.super.call(this, Details, arguments);
@@ -16,7 +17,18 @@ define([
             tomato.super.call(this, Details, 'start', arguments);
             console.log('Details: starting...');
             this.view.setParent($container);
-            this.view.getWidget().setValue('hello ' + id);
+
+            this.model = new Model();
+
+            this.binding = new tomato.Binding(this.view, this.model);
+
+            this.model.set('text', 'Hello');
+            this.model.set('button', 'Hello');
+
+        },
+        save: function () {
+            var model = this.binding.flush();
+            model.set('button', model.get('text'));
         }
     });
 

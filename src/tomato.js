@@ -110,7 +110,7 @@
                 args = _.toArray(arguments);
             if (!proto.view) {
                 proto.view = new proto.View();
-                proto.view.subscribe('viewReady', function () {
+                proto.view.on('ready', function () {
                     Application_startPresenter(proto.view, presenter, this.$container, args);
                 }.bind(this));
                 proto.view.render();
@@ -145,18 +145,19 @@
     tomato.View = function () {
         console.log('View: creating...');
         this.eventBus = $({});
+        this.bindable = [];
     };
 
-    tomato.View.prototype.subscribe = function () {
+    tomato.View.prototype.on = function () {
         this.eventBus.on.apply(this.eventBus, arguments);
     };
 
     //noinspection JSUnusedGlobalSymbols
-    tomato.View.prototype.unsubscribe = function () {
+    tomato.View.prototype.off = function () {
         this.eventBus.off.apply(this.eventBus, arguments);
     };
 
-    tomato.View.prototype.publish = function () {
+    tomato.View.prototype.trigger = function () {
         this.eventBus.trigger.apply(this.eventBus, arguments);
     };
 
@@ -175,7 +176,15 @@
         var widget = new Widget();
         this[$placeholder.data('name')] = widget;
 
-        widget.subscribe('viewReady', function () {
+        var attribute = $placeholder.data('bind');
+        if (attribute != null) {
+            this.bindable.push({
+                'attribute': attribute,
+                'widget': widget
+            });
+        }
+
+        widget.on('ready', function () {
             $placeholder.replaceWith(widget.$el);
             this.loadCouner--;
             this.viewReady();
@@ -186,12 +195,37 @@
 
     tomato.View.prototype.viewReady = function () {
         if (this.loadCouner == 0) {
-            this.publish('viewReady');
+            this.trigger('ready');
+            this.init();
         }
+    };
+
+    tomato.View.prototype.init = function () {
+
     };
 
     tomato.View.prototype.render = function () {
         this.$el = $($.parseHTML(this.template()));
+
+        // Just copied from Backbone
+        var events = this.events || {},
+            delegateEventSplitter = /^(\S+)\s*(.*)$/;
+        for (var key in events) {
+            var method = events[key];
+            if (!_.isFunction(method)) method = this[events[key]];
+            if (!method) throw new Error('Method "' + events[key] + '" does not exist');
+            var match = key.match(delegateEventSplitter);
+            var eventName = match[1], selector = match[2];
+            method = _.bind(method, this);
+            eventName += '.delegateEvents' + this.cid;
+            if (selector === '') {
+                this.$el.bind(eventName, method);
+            } else {
+                this.$el.delegate(selector, eventName, method);
+            }
+        }
+
+
         this.loadCouner = 0;
         this.$el.find('[data-type]').each(function (i, el) {
             this._requireWidget($(el));
@@ -208,6 +242,25 @@
         //noinspection JSUnusedGlobalSymbols
         this.presenter = presenter;
     };
+
+    tomato.Binding = function (view, model) {
+        this.view = view;
+        this.model = model;
+        _.each(this.view.bindable, function (item) {
+            this.model.on('change:' + item.attribute, function (model, value) {
+                item.widget.setValue(value);
+            });
+        }, this)
+    };
+
+    tomato.Binding.prototype.flush = function () {
+        _.each(this.view.bindable, function (item) {
+            this.model.set(item.attribute, item.widget.getValue());
+        }, this);
+        return this.model;
+    };
+
+    tomato.Model = Backbone.Model;
 
     tomato.View.extend
         = tomato.Presenter.extend

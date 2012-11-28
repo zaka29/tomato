@@ -1,19 +1,20 @@
 define([
-    'tomato'
-], function (tomato) {
+    'tomato',
+    'text!./DetailsView.html'
+], function (tomato, template) {
 
     return tomato.View.extend({
 
         template: function () {
-            return '<div>' +
-                '<div>Details</div>' +
-                '<div><a href="#">Back</a></div>' +
-                '<div data-name="widget" data-type="pages/details/DetailsWidget"></div>' +
-                '</div>';
+            return template;
         },
 
-        getWidget: function() {
-            return this['widget'];
+        getButton: function () {
+            return this['button'];
+        },
+
+        init: function () {
+            this.getButton().on('click', this.presenter.save.bind(this.presenter));
         }
 
     });

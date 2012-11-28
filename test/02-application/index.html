@@ -10,7 +10,10 @@
     <script src="../../src/tomato.js"></script>
     <script>
         require({
-            baseUrl: 'src'
+            baseUrl: 'src',
+            paths: {
+                'text': '../../../lib/requirejs/text'
+            }
         }, ['MyApplication'], function (MyApplication) {
 
             var myApplication = new MyApplication('#AppContainer');
