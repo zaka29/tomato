@@ -12,7 +12,8 @@ define([
              * @param name
              * @constructor
              */
-            initialize: function Animal(name) {
+            constructor: function (name) {
+                console.log('Constructor of Animal: ', name);
                 this.name = name;
             },
 

@@ -7,8 +7,8 @@ define([
 
         routes: routes,
 
-        constructor: function MyApplication() {
-            tomato.super.call(this, MyApplication, arguments);
+        constructor: function MyApplication(id) {
+            this.super('constructor', id);
             console.log('Application created.');
         },
 

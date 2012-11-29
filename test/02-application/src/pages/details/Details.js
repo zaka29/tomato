@@ -3,17 +3,14 @@ define([
     './DetailsView'
 ], function (tomato, View) {
 
-    function Details() {
-        tomato.super.call(this, Details, arguments);
-        console.log('Details presenter created.');
-    }
-
     return tomato.Presenter.extend({
-        name: 'Details',
         View: View,
-        constructor: Details,
+        constructor: function () {
+            this.super('constructor');
+            console.log('Details presenter created.');
+        },
         start: function ($container) {
-            tomato.super.call(this, Details, 'start', arguments);
+            this.super('start', $container);
             console.log('Details: starting...');
             this.view.setParent($container);
         }

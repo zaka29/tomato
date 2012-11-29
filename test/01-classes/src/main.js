@@ -9,15 +9,7 @@ define([
 
     var sam, tom;
 
-    /**
-     *
-     * @type {zoo.Snake}
-     */
     sam = new Snake('Sammy the Python');
-    /**
-     *
-     * @type {zoo.Horse}
-     */
     tom = new Horse('Tommy the Palomino');
 
     sam.move();
