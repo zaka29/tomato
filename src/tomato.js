@@ -6,8 +6,8 @@
 
     function extend(protoProps, staticProps) {
         protoProps || (protoProps = {});
-        var child = protoProps.hasOwnProperty('constructor') ? protoProps.constructor : function Parent() {
-            return Parent.__super__.constructor.apply(this, arguments);
+        var child = protoProps.hasOwnProperty('constructor') ? protoProps.constructor : function Constructor() {
+            return Constructor.__super__.constructor.apply(this, arguments);
         };
 
         for (var key in this) {
@@ -15,12 +15,12 @@
                 child[key] = this[key];
             }
         }
-        function Ctor() {
+        function Parent() {
             this.constructor = child;
         }
 
-        Ctor.prototype = this.prototype;
-        child.prototype = new Ctor();
+        Parent.prototype = this.prototype;
+        child.prototype = new Parent();
         child.__super__ = this.prototype;
 
         _.extend(child.prototype, protoProps);
