@@ -6,6 +6,7 @@
 
     function extend(protoProps, staticProps) {
         protoProps || (protoProps = {});
+
         var child = protoProps.hasOwnProperty('constructor') ? protoProps.constructor : function Constructor() {
             return Constructor.__super__.constructor.apply(this, arguments);
         };
