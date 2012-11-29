@@ -70,7 +70,7 @@
             }
 
             // TODO use eventbus for route change handling
-            function Application_RouteOnChange() {
+            function Application_routeOnChange() {
                 var presenter = new route.Presenter(),
                     proto = route.Presenter.prototype,
                     args = _.toArray(arguments);
@@ -85,7 +85,7 @@
                 }
             }
 
-            this.router.route(route.pattern, route.name, Application_RouteOnChange.bind(this));
+            this.router.route(route.pattern, route.name, Application_routeOnChange.bind(this));
         }
     });
 

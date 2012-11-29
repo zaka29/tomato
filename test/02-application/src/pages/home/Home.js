@@ -3,9 +3,10 @@ define([
     './HomeView'
 ], function (tomato, View) {
 
-    return tomato.Presenter.extend({
+    return Home = tomato.Presenter.extend({
         View: View,
         start: function ($container) {
+            this.super(Home, 'start', $container);
             console.log('Home: starting...');
             this.view.setParent($container);
         }
