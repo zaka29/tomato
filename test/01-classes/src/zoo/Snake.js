@@ -3,7 +3,7 @@ define([
     './Animal'
 ], function (tomato, Animal) {
 
-    return Animal.extend(
+    return SnakeClass = Animal.extend(
         /**
          * @lends {zoo.Snake.prototype}
          */
@@ -14,13 +14,13 @@ define([
              * @extends {zoo.Animal}
              */
             constructor: function Snake(name) {
-                this.super('constructor', name);
+                this.super(SnakeClass, 'constructor', name);
                 console.log('Constructor of Snake: ', name);
             },
 
             move: function () {
                 console.log(this.name, "Slithering...");
-                return this.super('move', 5);
+                return this.super(SnakeClass, 'move', 5);
             }
 
         }

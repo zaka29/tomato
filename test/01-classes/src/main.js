@@ -15,6 +15,15 @@ define([
     sam.move();
     tom.move().neigh();
 
+    var MyHorse = Horse.extend({
+        move: function() {
+            return this.super(MyHorse, 'move', 100);
+        }
+    });
+
+    var myHorse = new MyHorse("MyHorse");
+    myHorse.move();
+
     console.groupEnd();
     console.groupCollapsed('Type check');
 

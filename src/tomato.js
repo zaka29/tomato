@@ -4,52 +4,42 @@
         $ = window.jQuery.noConflict(),
         Backbone = window.Backbone.noConflict();
 
-    function inherits(child, parent) {
-        for (var key in parent) {
-            if (parent.hasOwnProperty(key)) {
-                child[key] = parent[key];
+    function extend(protoProps, staticProps) {
+        protoProps || (protoProps = {});
+        var child = protoProps.hasOwnProperty('constructor') ? protoProps.constructor : function Parent() {
+            return Parent.__super__.constructor.apply(this, arguments);
+        };
+
+        for (var key in this) {
+            if (this.hasOwnProperty(key)) {
+                child[key] = this[key];
             }
         }
         function Ctor() {
             this.constructor = child;
         }
 
-        Ctor.prototype = parent.prototype;
+        Ctor.prototype = this.prototype;
         child.prototype = new Ctor();
-        child.__super__ = parent.prototype;
-        return child;
-    }
+        child.__super__ = this.prototype;
 
-    function _extend(protoProps, staticProps) {
-        var child;
-        if (protoProps && protoProps.hasOwnProperty('constructor')) {
-            child = inherits(protoProps.constructor, this);
-        } else {
-            var parent = this;
-            child = inherits(function () {
-                parent.apply(this, arguments);
-            }, this);
-        }
-        if (protoProps) {
-            _.extend(child.prototype, protoProps);
-        }
+        _.extend(child.prototype, protoProps);
+
         if (staticProps) {
             _.extend(child, staticProps);
         }
-        child.extend = this.extend;
+
         return child;
     }
 
     tomato.Class = function () {
     };
 
-    tomato.Class.prototype.super = function (fn) {
-        return this.constructor.__super__[fn].apply(this, _.toArray(arguments).slice(1));
+    tomato.Class.prototype.super = function (Class, fn) {
+        return Class.__super__[fn].apply(this, _.toArray(arguments).slice(2));
     };
 
-    tomato.Class.create
-        = tomato.Class.extend
-        = _extend;
+    tomato.Class.create = tomato.Class.extend = extend;
 
     tomato.Application = tomato.Class.create({
         constructor: function (container) {

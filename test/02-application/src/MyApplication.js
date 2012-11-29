@@ -8,7 +8,7 @@ define([
         routes: routes,
 
         constructor: function MyApplication(id) {
-            this.super('constructor', id);
+            this.super(MyApplication, 'constructor', id);
             console.log('Application created.');
         },
 

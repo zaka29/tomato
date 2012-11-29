@@ -3,7 +3,7 @@ define([
     './Animal'
 ], function (tomato, Animal) {
 
-    return Animal.extend(
+    return HorseClass = Animal.extend(
         /**
          * @lends {zoo.Horse.prototype}
          */
@@ -14,13 +14,13 @@ define([
              * @extends {zoo.Animal}
              */
             constructor: function Horse(name) {
-                this.super('constructor', name);
+                this.super(HorseClass, 'constructor', name);
                 console.log('Constructor of Horse: ', name);
             },
 
-            move: function () {
+            move: function (meters) {
                 console.log(this.name, "Galloping...");
-                return this.super('move', 45);
+                return this.super(HorseClass, 'move', meters || 45);
             },
 
             neigh: function () {
