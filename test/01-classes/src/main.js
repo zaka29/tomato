@@ -9,19 +9,20 @@ define([
 
     var sam, tom;
 
-    /**
-     *
-     * @type {zoo.Snake}
-     */
     sam = new Snake('Sammy the Python');
-    /**
-     *
-     * @type {zoo.Horse}
-     */
     tom = new Horse('Tommy the Palomino');
 
     sam.move();
     tom.move().neigh();
+
+    var MyHorse = Horse.extend({
+        move: function() {
+            return this.super(MyHorse, 'move', 100);
+        }
+    });
+
+    var myHorse = new MyHorse("MyHorse");
+    myHorse.move();
 
     console.groupEnd();
     console.groupCollapsed('Type check');

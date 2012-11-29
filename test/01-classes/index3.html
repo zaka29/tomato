@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+    <meta charset="utf-8">
+    <script src="../../lib/requirejs/require.js"></script>
+    <script src="../../lib/underscore/underscore.js"></script>
+    <script src="../../lib/jquery/jquery.js"></script>
+    <script src="../../lib/backbone/backbone.js"></script>
+    <script src="../../src/tomato.js"></script>
+    <script>
+        require(['tomato'], function (tomato) {
+
+            var Animal, MySnake, Snake;
+
+            Animal = tomato.Class.create({
+                constructor: function Animal(name) {
+                    this.name = name;
+                },
+                move: function (meters) {
+                    console.log(this.name + (" moved " + meters + "m."));
+                    return this;
+                }
+            });
+
+            Snake = Animal.extend({
+                move: function (meters) {
+                    console.log("Slithering...");
+                    return Snake.__super__.move.call(this, meters || 5);
+                }
+            });
+
+            MySnake = Snake.extend({
+                move: function () {
+                    console.log("Galloping...");
+                    return MySnake.__super__.move.call(this, 45);
+                }
+            });
+
+            var sam = new Snake("Sammy");
+            sam.move();
+
+            var mySnake = new MySnake("MySammy");
+            mySnake.move();
+
+            console.log(sam instanceof Animal);
+            console.log(mySnake instanceof Animal);
+            console.log(mySnake instanceof Snake);
+            console.log(!(sam instanceof MySnake));
+
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
