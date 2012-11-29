@@ -15,6 +15,7 @@
                 child[key] = this[key];
             }
         }
+
         function Parent() {
             this.constructor = child;
         }
